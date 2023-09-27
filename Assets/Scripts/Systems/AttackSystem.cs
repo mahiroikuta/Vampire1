@@ -18,7 +18,7 @@ public class AttackSystem
     }
 
     // 弾を出す
-    void popBullet
+    void popBullet()
     {
         
     }
