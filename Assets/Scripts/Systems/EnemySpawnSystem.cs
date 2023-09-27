@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySponeSystem
+public class EnemySpawnSystem
 {
     GameState _gameState;
     GameEvent _gameEvent;
 
-    public EnemySponeSystem(GameState gameState, GameEvent gameEvent)
+    public EnemySpawnSystem(GameState gameState, GameEvent gameEvent)
     {
         _gameState = gameState;
         _gameEvent = gameEvent;
@@ -18,7 +18,7 @@ public class EnemySponeSystem
     }
 
     // 敵を一定距離離れた位置に生成
-    void sponeEnemy()
+    void SpawnEnemy()
     {
         // ObjectPool使って画面外に生成
     }
