@@ -6,4 +6,6 @@ public class PlayerComponent : MonoBehaviour
 {
     public float speed;
     public int hp;
+    public Quaternion dir;
+    public int bulletLevel;
 }

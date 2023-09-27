@@ -8,15 +8,19 @@ public class GameMain : MonoBehaviour
     GameState gameState;
     [SerializeField]
     GameEvent gameEvent;
+
+    PlayerSystem playerSystem;
+
     // Start is called before the first frame update
     void Start()
     {
+        playerSystem = new PlayerSystem(gameState, gameEvent);
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        playerSystem.OnUpdate();
     }
 }
