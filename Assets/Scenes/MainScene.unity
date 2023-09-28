@@ -286,7 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameState:
     player: {fileID: 621467123}
-    backWall: {fileID: 0}
+    camera: {fileID: 519420028}
   gameEvent: {fileID: 1762988137}
 --- !u!4 &1195640090
 Transform:

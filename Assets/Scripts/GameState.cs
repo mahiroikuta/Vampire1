@@ -15,7 +15,7 @@ public enum GameStatus
 public class GameState
 {
     public GameObject player;
+    public GameObject camera;
     [System.NonSerialized]
     public GameStatus gameStatus;
-    public GameObject backWall;
 }
