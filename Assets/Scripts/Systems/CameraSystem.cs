@@ -7,10 +7,16 @@ public class CameraSystem
     GameState _gameState;
     GameEvent _gameEvent;
 
+    public float _pSpeed;
+    public Vector3 _pos;
+
     public CameraSystem(GameState gameState, GameEvent gameEvent)
     {
         _gameState = gameState;
         _gameEvent = gameEvent;
+
+        _pSpeed = gameState.player.GetComponent<PlayerComponent>().speed;
+        _pos = gameState.camera.GetComponent<CameraComponent>().pos;
 
         Init();
     }
@@ -18,38 +24,55 @@ public class CameraSystem
     public void Init()
     {
         Vector3 basePos = new Vector3(0, 0, -10f);
-        _gameState.camera.transform.position = basePos;
+        _pos = basePos;
     }
 
     public void OnUpdate()
     {
-        MovePlayer();
+        MoveCamera();
     }
 
     // WASDで移動する
-    void MovePlayer()
+    void MoveCamera()
     {
-        float hor = Input.GetAxis("Horizontal")/30;
-        float ver = Input.GetAxis("Vertical")/30;
-        Vector3 pos = _gameState.camera.transform.position;
-        Vector3 newPos = new Vector3(pos.x+hor, pos.y+ver, pos.z);
-        if (newPos.x > 32f)
+        float hor=0;
+        float ver=0;
+        if (Input.GetKey(KeyCode.W))
         {
-            newPos.x = 32f;
+            ver = _pSpeed * Time.deltaTime * 5;
         }
-        else if (newPos.x < -32f)
+        if (Input.GetKey(KeyCode.S))
         {
-            newPos.x = -32f;
+            ver = -_pSpeed * Time.deltaTime * 5;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            hor = _pSpeed * Time.deltaTime * 5;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            hor = -_pSpeed * Time.deltaTime * 5;
         }
 
-        if (newPos.y > 40f)
+        _pos = new Vector3(_pos.x+hor, _pos.y+ver, _pos.z);
+
+        if (_pos.x > 32f)
         {
-            newPos.y = 40f;
+            _pos.x = 32f;
         }
-        else if (newPos.y < -40f)
+        else if (_pos.x < -32f)
         {
-            newPos.y = -40f;
+            _pos.x = -32f;
         }
-        _gameState.camera.transform.position = newPos;
+
+        if (_pos.y > 40f)
+        {
+            _pos.y = 40f;
+        }
+        else if (_pos.y < -40f)
+        {
+            _pos.y = -40f;
+        }
+        _gameState.camera.transform.position = _pos;
     }
 }

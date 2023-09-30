@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class CameraComponent : MonoBehaviour
 {
-    
+    public Vector3 pos;
 }

@@ -8,18 +8,24 @@ public class PlayerSystem
     GameEvent _gameEvent;
 
     Quaternion _dir;
+    float _speed;
+    Vector3 _pos;
     public PlayerSystem(GameState gameState, GameEvent gameEvent)
     {
         _gameState = gameState;
         _gameEvent = gameEvent;
 
         _dir = gameState.player.GetComponent<PlayerComponent>().dir;
+        _speed = gameState.player.GetComponent<PlayerComponent>().speed;
+        _pos = gameState.player.GetComponent<PlayerComponent>().pos;
+
+        Init();
     }
 
     public void Init()
     {
         Vector3 basePos = new Vector3(0, 0, 0);
-        _gameState.player.transform.position = basePos;
+        _pos = basePos;
     }
 
     public void OnUpdate()
@@ -31,28 +37,45 @@ public class PlayerSystem
     // WASDで移動する
     void MovePlayer()
     {
-        float hor = Input.GetAxis("Horizontal")/30;
-        float ver = Input.GetAxis("Vertical")/30;
-        Vector3 pos = _gameState.player.transform.position;
-        Vector3 newPos = new Vector3(pos.x+hor, pos.y+ver, pos.z);
-        if (newPos.x > 32f)
+        float hor=0;
+        float ver=0;
+        if (Input.GetKey(KeyCode.W))
         {
-            newPos.x = 32f;
+            ver = _speed * Time.deltaTime * 5;
         }
-        else if (newPos.x < -32f)
+        if (Input.GetKey(KeyCode.S))
         {
-            newPos.x = -32f;
+            ver = -_speed * Time.deltaTime * 5;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            hor = _speed * Time.deltaTime * 5;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            hor = -_speed * Time.deltaTime * 5;
         }
 
-        if (newPos.y > 40f)
+        _pos = new Vector3(_pos.x+hor, _pos.y+ver, _pos.z);
+
+        if (_pos.x > 32f)
         {
-            newPos.y = 40f;
+            _pos.x = 32f;
         }
-        else if (newPos.y < -40f)
+        else if (_pos.x < -32f)
         {
-            newPos.y = -40f;
+            _pos.x = -32f;
         }
-        _gameState.player.transform.position = newPos;
+
+        if (_pos.y > 40f)
+        {
+            _pos.y = 40f;
+        }
+        else if (_pos.y < -40f)
+        {
+            _pos.y = -40f;
+        }
+        _gameState.player.transform.position = _pos;
     }
 
     // マウスカーソルの方向を向く
