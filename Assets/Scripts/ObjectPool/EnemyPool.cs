@@ -28,7 +28,7 @@ public class EnemyPool
         gameObject.SetActive(false);
     }
 
-    public GameObject OnSpawnEnemy(GameObject enemy, int x, int y = 0)
+    public GameObject OnSpawnEnemy(GameObject enemy)
     {
         GenerateRandomPos();
         int hash = enemy.GetHashCode();
@@ -60,24 +60,32 @@ public class EnemyPool
 
     private void GenerateRandomPos()
     {
-        float rnd = Random.Range(1,3);
+        float rnd = Random.Range(1,4);
         switch (rnd)
         {
             case 1:
-                hor = 22 + Random.Range(1,11);
+                hor = 22 + Random.Range(1,6);
                 break;
             case 2:
-                hor = -22 - Random.Range(1,11);
+                hor = -22 - Random.Range(1,6);
+                break;
+            case 3:
+                hor = Random.Range(-22,22);
                 break;
         }
-        rnd = Random.Range(1,3);
+
+        if (rnd == 3) rnd = Random.Range(1,3);
+        else rnd = Random.Range(1,4);
         switch (rnd)
         {
             case 1:
-                ver = 11 + Random.Range(1,11);
+                ver = 11 + Random.Range(1,6);
                 break;
             case 2:
-                ver = -11 - Random.Range(1,11);
+                ver = -11 - Random.Range(1,6);
+                break;
+            case 3:
+                ver = Random.Range(-11,11);
                 break;
         }
     }

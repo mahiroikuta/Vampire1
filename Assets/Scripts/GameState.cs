@@ -16,6 +16,10 @@ public class GameState
 {
     public GameObject player;
     public GameObject camera;
+    public GameObject enemyPrefab;
+
     [System.NonSerialized]
     public GameStatus gameStatus;
+
+    public List<GameObject> enemys;
 }

@@ -11,12 +11,18 @@ public class GameMain : MonoBehaviour
 
     PlayerSystem playerSystem;
     CameraSystem cameraSystem;
+    EnemySpawnSystem enemySpawnSystem;
+    EnemyPool enemyPool;
 
+    EnemySystem enemySystem;
     // Start is called before the first frame update
     void Start()
     {
         playerSystem = new PlayerSystem(gameState, gameEvent);
         cameraSystem = new CameraSystem(gameState, gameEvent);
+        enemyPool = new EnemyPool(gameState, gameEvent);
+        enemySpawnSystem = new EnemySpawnSystem(gameState, gameEvent, enemyPool);
+        enemySystem = new EnemySystem(gameState, gameEvent);
     }
 
     // Update is called once per frame
@@ -24,5 +30,7 @@ public class GameMain : MonoBehaviour
     {
         playerSystem.OnUpdate();
         cameraSystem.OnUpdate();
+        enemySpawnSystem.OnUpdate();
+        enemySystem.OnUpdate();
     }
 }
