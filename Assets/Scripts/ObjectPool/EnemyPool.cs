@@ -20,7 +20,7 @@ public class EnemyPool
         _gameEvent = gameEvent;
         _gameEvent.onRemoveGameObject += OnRemoveEnemy;
         
-        _pPos = _gameState.player.GetComponent<PlayerComponent>().pos;
+        _pPos = _gameState.player.transform.position;
     }
 
     private void OnRemoveEnemy(GameObject gameObject)
@@ -30,6 +30,7 @@ public class EnemyPool
 
     public GameObject OnSpawnEnemy(GameObject enemy)
     {
+        Debug.Log(_pPos);
         GenerateRandomPos();
         int hash = enemy.GetHashCode();
         if (pool.ContainsKey(hash))

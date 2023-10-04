@@ -6,4 +6,5 @@ using UnityEngine;
 public class GameEvent : MonoBehaviour
 {
     public Action<GameObject> onRemoveGameObject;
+    public Action<GameObject> enemyHitPlayer;
 }

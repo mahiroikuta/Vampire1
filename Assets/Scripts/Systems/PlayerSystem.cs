@@ -7,6 +7,7 @@ public class PlayerSystem
     GameState _gameState;
     GameEvent _gameEvent;
 
+    PlayerComponent _player;
     Quaternion _dir;
     float _speed;
     Vector3 _pos;
@@ -15,9 +16,12 @@ public class PlayerSystem
         _gameState = gameState;
         _gameEvent = gameEvent;
 
-        _dir = gameState.player.GetComponent<PlayerComponent>().dir;
-        _speed = gameState.player.GetComponent<PlayerComponent>().speed;
-        _pos = gameState.player.GetComponent<PlayerComponent>().pos;
+        _player = _gameState.player.GetComponent<PlayerComponent>();
+
+        _dir = _player.dir;
+        _speed = _player.speed;
+
+        _gameEvent.enemyHitPlayer += DamagedByEnemy;
 
         Init();
     }
@@ -25,7 +29,7 @@ public class PlayerSystem
     public void Init()
     {
         Vector3 basePos = new Vector3(0, 0, 0);
-        _pos = basePos;
+        _gameState.player.transform.position = basePos;
     }
 
     public void OnUpdate()
@@ -85,5 +89,20 @@ public class PlayerSystem
 		Quaternion rotation = Quaternion.LookRotation(Vector3.forward, Input.mousePosition - pos );
         _dir = rotation;
 		_gameState.player.transform.localRotation = _dir;
+    }
+
+    void DamagedByEnemy(GameObject enemy)
+    {
+        int attack = enemy.GetComponent<EnemyComponent>().attack;
+        int hp = _player.hp;
+        if (hp <= attack)
+        {
+            hp = 0;
+        }
+        else
+        {
+            hp -= attack;
+        }
+        _player.hp = hp;
     }
 }
