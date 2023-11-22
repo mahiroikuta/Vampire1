@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyComponent : MonoBehaviour
@@ -8,4 +6,5 @@ public class EnemyComponent : MonoBehaviour
     public float speed;
     public int hp;
     public int attack;
+    public GameObject empty;
 }

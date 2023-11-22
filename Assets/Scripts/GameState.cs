@@ -15,11 +15,12 @@ public enum GameStatus
 public class GameState
 {
     public GameObject player;
+    public GameObject emptySphere;
     public GameObject camera;
     public GameObject enemyPrefab;
 
     [System.NonSerialized]
     public GameStatus gameStatus;
 
-    public List<GameObject> enemys;
+    public List<EnemyComponent> enemies;
 }

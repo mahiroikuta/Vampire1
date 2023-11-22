@@ -88,13 +88,13 @@ public class PlayerSystem
         Vector3 pos = Camera.main.WorldToScreenPoint (_gameState.player.transform.localPosition);
 		Quaternion rotation = Quaternion.LookRotation(Vector3.forward, Input.mousePosition - pos );
         _dir = rotation;
-		_gameState.player.transform.localRotation = _dir;
+		_gameState.emptySphere.transform.localRotation = _dir;
     }
 
     void DamagedByEnemy(GameObject enemy)
     {
-        int attack = enemy.GetComponent<EnemyComponent>().attack;
         int hp = _player.hp;
+        int attack = enemy.GetComponent<EnemyComponent>().attack;
         if (hp <= attack)
         {
             hp = 0;

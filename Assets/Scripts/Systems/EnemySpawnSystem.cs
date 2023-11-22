@@ -38,6 +38,7 @@ public class EnemySpawnSystem
     {
         // ObjectPool使って画面外に生成
         GameObject enemy = _enemyPool.OnSpawnEnemy(_gameState.enemyPrefab);
-        _gameState.enemys.Add(enemy);
+        EnemyComponent enemyComponent = enemy.GetComponent<EnemyComponent>();
+        _gameState.enemies.Add(enemyComponent);
     }
 }

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySystem
@@ -11,15 +8,19 @@ public class EnemySystem
     float time;
     Vector3 _pPos;
     float _eSpeed;
+    private float avoidDistance = 1f;
+    private LayerMask playerLayer = 3;
+    private LayerMask obstacleLayer = 7;
 
-    public LayerMask mask = -1;
+    PlayerComponent _player;
+    EnemyComponent _enemy;
     public EnemySystem(GameState gameState, GameEvent gameEvent)
     {
         _gameState = gameState;
         _gameEvent = gameEvent;
 
         _eSpeed = _gameState.enemyPrefab.GetComponent<EnemyComponent>().speed;
-
+        _player = _gameState.player.GetComponent<PlayerComponent>();
     }
 
     public void OnUpdate()
@@ -30,39 +31,62 @@ public class EnemySystem
     void EnemyAction()
     {
         Vector3 pos = _gameState.player.transform.position;
-        foreach (GameObject enemy in _gameState.enemys)
+        foreach (EnemyComponent enemy in _gameState.enemies)
         {
-            MoveEnemy(enemy, pos);
-            EnemyDirection(enemy, pos);
+            _enemy = enemy;
+            Vector3 dirToPlayer = (_player.gameObject.transform.position - _enemy.transform.position).normalized;
+            _enemy.empty.transform.rotation = Quaternion.LookRotation(dirToPlayer);
+            if (!ObstacleInPath())
+            {
+                MoveTowardsPlayer();
+            }
         }
     }
 
-    void MoveEnemy(GameObject enemy, Vector3 pos)
+    bool ObstacleInPath()
     {
-        enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, pos, _eSpeed * Time.deltaTime);
+        RaycastHit hit;
+        Debug.DrawRay(_enemy.transform.position, Vector3.up * 6, Color.blue, 0.1f);
+
+        if (Physics.Raycast(_enemy.transform.position, _enemy.transform.forward, out hit, 2.0f, obstacleLayer))
+        {
+            Debug.Log("#hit object");
+            AvoidObstacle(hit);
+            return true;
+        }
+        return false;
     }
 
-    void EnemyDirection(GameObject enemy, Vector3 pos)
+    void MoveTowardsPlayer()
     {
-        Vector3 ePos = enemy.transform.position;
-        Vector3 direc = (_gameState.player.transform.position - ePos).normalized;
-        Ray ray = new Ray(ePos, direc);
-
+        Debug.Log("#movetowards");
         RaycastHit hit;
 
-        Debug.DrawLine(ray.origin, ray.origin+ray.direction * 100, Color.red, 0);
-
-        bool isHit = Physics.SphereCast(ePos, 0.5f, direc, out hit, 0.1f, mask);
-
-        if (isHit)
+        if (Physics.Raycast(_enemy.transform.position, _enemy.transform.forward, out hit, 0.5f, playerLayer))
         {
-            GameObject hitObj = hit.collider.gameObject;
-            if (hitObj.layer == 3)
+            Debug.Log("#hit player");
+            if (hit.collider.gameObject == _player.gameObject)
             {
-                _gameEvent.enemyHitPlayer?.Invoke(hitObj);
-                return;
+                EnemyHitPlayer();
             }
-            else return;
+            else
+            {
+                _enemy.transform.position += _enemy.transform.forward * _eSpeed * Time.deltaTime;
+            }
         }
+    }
+
+    void AvoidObstacle(RaycastHit hit)
+    {
+        Vector3 avoidDir = Vector3.right * (Random.value > 0.5f ? -avoidDistance : avoidDistance);
+
+        _enemy.transform.position += avoidDir;
+        Vector3 dirToPlayer = (_player.gameObject.transform.position - _enemy.transform.position).normalized;
+        _enemy.empty.transform.rotation = Quaternion.LookRotation(dirToPlayer);
+    }
+
+    void EnemyHitPlayer()
+    {
+        _gameEvent.enemyHitPlayer?.Invoke(_enemy.gameObject);
     }
 }

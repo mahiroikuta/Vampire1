@@ -30,7 +30,6 @@ public class EnemyPool
 
     public GameObject OnSpawnEnemy(GameObject enemy)
     {
-        Debug.Log(_pPos);
         GenerateRandomPos();
         int hash = enemy.GetHashCode();
         if (pool.ContainsKey(hash))
