@@ -9,7 +9,7 @@ public class EnemyPool
     GameEvent _gameEvent;
     private Dictionary<int, List<GameObject>> pool = new Dictionary<int, List<GameObject>>();
 
-    public Vector3 _pPos;
+    Vector3 _pPos;
 
     float hor;
     float ver;
@@ -18,9 +18,7 @@ public class EnemyPool
     {
         _gameState = gameState;
         _gameEvent = gameEvent;
-        _gameEvent.onRemoveGameObject += OnRemoveEnemy;
-        
-        _pPos = _gameState.player.transform.position;
+        _gameEvent.onRemoveGameObject += OnRemoveEnemy;        
     }
 
     private void OnRemoveEnemy(GameObject gameObject)
@@ -30,7 +28,9 @@ public class EnemyPool
 
     public GameObject OnSpawnEnemy(GameObject enemy)
     {
-        GenerateRandomPos();
+        _pPos = _gameState.player.transform.position;
+        Debug.Log(_pPos);
+        Vector3 addVec = GenerateRandomPos();
         int hash = enemy.GetHashCode();
         if (pool.ContainsKey(hash))
         {
@@ -50,7 +50,7 @@ public class EnemyPool
             return targetEnemy;
         }
 
-        GameObject targetEnemy2 = GameObject.Instantiate(enemy, new Vector3(_pPos.x + hor, _pPos.y + ver, 0), Quaternion.identity);
+        GameObject targetEnemy2 = GameObject.Instantiate(enemy, _pPos+addVec, Quaternion.identity);
         List<GameObject> poolList = new List<GameObject>();
         poolList.Add(targetEnemy2);
         pool.Add(hash, poolList);
@@ -58,7 +58,7 @@ public class EnemyPool
         return targetEnemy2;
     }
 
-    private void GenerateRandomPos()
+    private Vector3 GenerateRandomPos()
     {
         float rnd = Random.Range(1,4);
         switch (rnd)
@@ -88,5 +88,6 @@ public class EnemyPool
                 ver = Random.Range(-11,11);
                 break;
         }
+        return new Vector3(hor, ver, 0); 
     }
 }

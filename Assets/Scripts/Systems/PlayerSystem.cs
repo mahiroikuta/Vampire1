@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerSystem
 {
@@ -30,6 +31,8 @@ public class PlayerSystem
     {
         Vector3 basePos = new Vector3(0, 0, 0);
         _gameState.player.transform.position = basePos;
+        _player.hpBar.maxValue = _player.hp;
+        _player.hpBar.value = _player.hp;
     }
 
     public void OnUpdate()
@@ -103,6 +106,7 @@ public class PlayerSystem
         {
             hp -= attack;
         }
+        _player.hpBar.value = hp;
         _player.hp = hp;
     }
 }

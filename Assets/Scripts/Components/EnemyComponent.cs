@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyComponent : MonoBehaviour
 {
@@ -7,4 +8,5 @@ public class EnemyComponent : MonoBehaviour
     public int hp;
     public int attack;
     public GameObject empty;
+    public Slider hpBar;
 }

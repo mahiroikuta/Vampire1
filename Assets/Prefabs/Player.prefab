@@ -663,6 +663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  hp: 10
+  hp: 100
   dir: {x: 0, y: 0, z: 0, w: 0}
   bulletLevel: 0
+  hpBar: {fileID: 6235668887549887393}

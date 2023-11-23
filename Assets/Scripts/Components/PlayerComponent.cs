@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerComponent : MonoBehaviour
 {
@@ -7,4 +8,5 @@ public class PlayerComponent : MonoBehaviour
     public int hp;
     public Quaternion dir;
     public int bulletLevel;
+    public Slider hpBar;
 }

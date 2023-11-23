@@ -9,6 +9,8 @@ public class EnemySystem
     Vector3 _pPos;
     float _eSpeed;
     private float avoidDistance = 1f;
+    private float cooldownTimer = 0; // 持ち時間
+    private float coolTime = 1;
     private LayerMask playerLayer = 1 << 3;
     private LayerMask obstacleLayer = 1 << 7;
 
@@ -25,6 +27,7 @@ public class EnemySystem
 
     public void OnUpdate()
     {
+        time += time.deltaTime;
         EnemyAction();
     }
 

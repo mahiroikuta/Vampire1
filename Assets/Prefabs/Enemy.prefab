@@ -490,6 +490,7 @@ MonoBehaviour:
   hp: 0
   attack: 2
   empty: {fileID: 5572833343596474434}
+  hpBar: {fileID: 2788367728384512193}
 --- !u!1 &5572833343596474434
 GameObject:
   m_ObjectHideFlags: 0
