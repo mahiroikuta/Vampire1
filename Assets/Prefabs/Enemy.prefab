@@ -486,7 +486,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  hp: 0
+  maxHp: 5
+  hp: 5
   attack: 2
   coolDownTimer: 0
   coolTime: 1

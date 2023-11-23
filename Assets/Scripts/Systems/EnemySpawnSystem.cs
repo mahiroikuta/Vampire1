@@ -8,7 +8,7 @@ public class EnemySpawnSystem
     GameEvent _gameEvent;
     EnemyPool _enemyPool;
 
-    float time;
+    float duration;
 
     public EnemySpawnSystem(GameState gameState, GameEvent gameEvent, EnemyPool enemyPool)
     {
@@ -16,23 +16,19 @@ public class EnemySpawnSystem
         _gameEvent = gameEvent;
         _enemyPool = enemyPool;
 
-        time = 0;
+        duration = 0;
     }
 
     public void OnUpdate()
     {
-        CountTime();
-        if (time > 1)
+        duration += Time.deltaTime;
+        if (duration > _gameState.enemyDuration)
         {
-            time = 0;
+            duration = 0;
             SpawnEnemy();
         }
     }
 
-    void CountTime()
-    {
-        time += Time.deltaTime;
-    }
     // 敵を一定距離離れた位置に生成
     void SpawnEnemy()
     {

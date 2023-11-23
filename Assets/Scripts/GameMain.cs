@@ -12,6 +12,7 @@ public class GameMain : MonoBehaviour
     PlayerSystem playerSystem;
     CameraSystem cameraSystem;
     EnemySpawnSystem enemySpawnSystem;
+    BulletSystem bulletSystem;
     EnemyPool enemyPool;
     BulletPool bulletPool;
 
@@ -24,6 +25,8 @@ public class GameMain : MonoBehaviour
         enemyPool = new EnemyPool(gameState, gameEvent);
         enemySpawnSystem = new EnemySpawnSystem(gameState, gameEvent, enemyPool);
         enemySystem = new EnemySystem(gameState, gameEvent);
+        bulletPool = new BulletPool(gameState, gameEvent);
+        bulletSystem = new BulletSystem(gameState, gameEvent, bulletPool);
     }
 
     // Update is called once per frame
@@ -33,5 +36,6 @@ public class GameMain : MonoBehaviour
         cameraSystem.OnUpdate();
         enemySpawnSystem.OnUpdate();
         enemySystem.OnUpdate();
+        bulletSystem.OnUpdate();
     }
 }

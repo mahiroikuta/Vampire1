@@ -36,24 +36,25 @@ public class CameraSystem
     {
         float hor=0;
         float ver=0;
+        _pos = _gameState.camera.transform.position;
         if (Input.GetKey(KeyCode.W))
         {
-            ver = _player.speed * Time.deltaTime * 5;
+            ver = _player.speed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            ver = -_player.speed * Time.deltaTime * 5;
+            ver = -_player.speed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            hor = _player.speed * Time.deltaTime * 5;
+            hor = _player.speed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            hor = -_player.speed * Time.deltaTime * 5;
+            hor = -_player.speed * Time.deltaTime;
         }
-
-        _pos = new Vector3(_pos.x+hor, _pos.y+ver, _pos.z);
+        Vector3 distance = new Vector3(hor, ver, 0);
+        _pos = _pos+distance;
 
         if (_pos.x > 32f)
         {

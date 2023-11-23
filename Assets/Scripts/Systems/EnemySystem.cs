@@ -18,6 +18,8 @@ public class EnemySystem
 
         _eSpeed = _gameState.enemyPrefab.GetComponent<EnemyComponent>().speed;
         _player = _gameState.player.GetComponent<PlayerComponent>();
+
+        _gameEvent.bulletHitEnemy += DamagedByBullet;
     }
 
     public void OnUpdate()
@@ -64,12 +66,10 @@ public class EnemySystem
                 if (_enemyComp.coolDownTimer < _enemyComp.coolTime) return;
                 _enemyComp.coolDownTimer = 0;
                 EnemyHitPlayer();
+                return;
             }
         }
-        else
-        {
-            _enemyComp.transform.position += _enemyComp.emptyObj.transform.forward * _eSpeed * Time.deltaTime;
-        }
+        else _enemyComp.transform.position += _enemyComp.emptyObj.transform.forward * _eSpeed * Time.deltaTime;
     }
 
     void AvoidObstacle(RaycastHit hit)
@@ -84,5 +84,15 @@ public class EnemySystem
     void EnemyHitPlayer()
     {
         _gameEvent.enemyHitPlayer?.Invoke(_enemyComp.gameObject);
+    }
+
+    void DamagedByBullet(GameObject bullet, GameObject enemy)
+    {
+        EnemyComponent enemyComp = enemy.GetComponent<EnemyComponent>();
+        BulletComponent bulletComp = bullet.GetComponent<BulletComponent>();
+        int damage = bulletComp.bulletDamage;
+        enemyComp.hp -= damage;
+        enemyComp.hpBar.value = enemyComp.hp;
+        if (enemyComp.hp <= 0) _gameEvent.onRemoveEnemy?.Invoke(enemyComp);
     }
 }

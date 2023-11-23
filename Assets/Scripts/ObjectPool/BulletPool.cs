@@ -19,14 +19,15 @@ public class BulletPool
         _player = _gameState.player.GetComponent<PlayerComponent>();
     }
 
-    private void OnRemoveBullet(GameObject gameObject)
+    private void OnRemoveBullet(BulletComponent bulletComp)
     {
-        gameObject.SetActive(false);
+        bulletComp.gameObject.SetActive(false);
+        _gameState.bullets.Remove(bulletComp);
     }
 
-    public GameObject OnShootBullet(GameObject bullet)
+    public GameObject OnShootBullet(GameObject bulletPrefab)
     {
-        int hash = bullet.GetHashCode();
+        int hash = bulletPrefab.GetHashCode();
         if (pool.ContainsKey(hash))
         {
             List<GameObject> targetPool = pool[hash];
@@ -36,20 +37,22 @@ public class BulletPool
                 if (targetPool[j].activeSelf == false)
                 {
                     targetPool[j].SetActive(true);
+                    targetPool[j].transform.position = _player.aim.transform.position;
+                    targetPool[j].transform.rotation = _player.emptyObj.transform.rotation;
                     return targetPool[j];
                 }
             }
-            GameObject bullet = GameObject.Instantiate(targetPool[0], _player.transform.position, _player.emptyObj.rotation);
-            targetPool.Add(bullet);
-            bullet.SetActive(true);
-            return bullet;
+            GameObject targetBullet = GameObject.Instantiate(targetPool[0], _player.aim.transform.position, _player.emptyObj.transform.rotation);
+            targetPool.Add(targetBullet);
+            targetBullet.SetActive(true);
+            return targetBullet;
         }
 
-        GameObject bullet2 = GameObject.Instantiate(enemy, _player.transform.position, _player.emptyObj.rotation);
+        GameObject targetBullet2 = GameObject.Instantiate(bulletPrefab, _player.aim.transform.position, _player.emptyObj.transform.rotation);
         List<GameObject> poolList = new List<GameObject>();
-        poolList.Add(bullet2);
+        poolList.Add(targetBullet2);
         pool.Add(hash, poolList);
-        bullet2.SetActive(true);
-        return bullet2;
+        targetBullet2.SetActive(true);
+        return targetBullet2;
     }
 }

@@ -648,8 +648,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13433b289235443f3a67a308956dae5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 3
   hp: 100
   hpBar: {fileID: 6235668887549887393}
   emptyObj: {fileID: 5134497891301000867}
   aim: {fileID: 4757359411357862192}
+  coolTimer: 0

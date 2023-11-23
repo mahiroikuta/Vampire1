@@ -8,7 +8,7 @@ public class PlayerSystem
     GameState _gameState;
     GameEvent _gameEvent;
 
-    PlayerComponent _player;
+    PlayerComponent _playerComp;
     BulletComponent _bullet;
     Vector3 _pos;
     public PlayerSystem(GameState gameState, GameEvent gameEvent)
@@ -16,7 +16,7 @@ public class PlayerSystem
         _gameState = gameState;
         _gameEvent = gameEvent;
 
-        _player = _gameState.player.GetComponent<PlayerComponent>();
+        _playerComp = _gameState.player.GetComponent<PlayerComponent>();
         _bullet = _gameState.bulletPrefab.GetComponent<BulletComponent>();
 
         _gameEvent.enemyHitPlayer += DamagedByEnemy;
@@ -28,12 +28,13 @@ public class PlayerSystem
     {
         Vector3 basePos = new Vector3(0, 0, 0);
         _gameState.player.transform.position = basePos;
-        _player.hpBar.maxValue = _player.hp;
-        _player.hpBar.value = _player.hp;
+        _playerComp.hpBar.maxValue = _playerComp.hp;
+        _playerComp.hpBar.value = _playerComp.hp;
     }
 
     public void OnUpdate()
     {
+        _playerComp.coolTimer += Time.deltaTime;
         MovePlayer();
         TrackCursor();
     }
@@ -43,21 +44,22 @@ public class PlayerSystem
     {
         float hor=0;
         float ver=0;
+        _pos = _playerComp.transform.position;
         if (Input.GetKey(KeyCode.W))
         {
-            ver = _player.speed * Time.deltaTime * 5;
+            ver = _playerComp.speed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            ver = -_player.speed * Time.deltaTime * 5;
+            ver = -_playerComp.speed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            hor = _player.speed * Time.deltaTime * 5;
+            hor = _playerComp.speed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            hor = -_player.speed * Time.deltaTime * 5;
+            hor = -_playerComp.speed * Time.deltaTime;
         }
         Vector3 distance = new Vector3(hor, ver, 0);
         _pos = _pos+distance;
@@ -79,20 +81,20 @@ public class PlayerSystem
         {
             _pos.y = -40f;
         }
-        _player.transform.position = _pos;
+        _playerComp.transform.position = _pos;
     }
 
     // マウスカーソルの方向を向く
     void TrackCursor()
     {
         Vector3 pos = Camera.main.WorldToScreenPoint (_gameState.player.transform.localPosition);
-		Quaternion rotation = Quaternion.LookRotation(Vector3.forward, Input.mousePosition - pos );
-		_player.emptyObj.transform.rotation = rotation;
+		Quaternion rotation = Quaternion.LookRotation(Vector3.forward, Input.mousePosition - pos);
+		_playerComp.emptyObj.transform.rotation = rotation;
     }
 
     void DamagedByEnemy(GameObject enemy)
     {
-        int hp = _player.hp;
+        int hp = _playerComp.hp;
         int attack = enemy.GetComponent<EnemyComponent>().attack;
         if (hp <= attack)
         {
@@ -102,7 +104,7 @@ public class PlayerSystem
         {
             hp -= attack;
         }
-        _player.hpBar.value = hp;
-        _player.hp = hp;
+        _playerComp.hpBar.value = hp;
+        _playerComp.hp = hp;
     }
 }

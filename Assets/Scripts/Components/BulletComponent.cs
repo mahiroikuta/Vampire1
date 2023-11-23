@@ -13,5 +13,5 @@ public class BulletComponent : MonoBehaviour
     public float bulletSpeed;
     
     public int bulletDamageLevel;
-    public float bulletDamage;
+    public int bulletDamage;
 }

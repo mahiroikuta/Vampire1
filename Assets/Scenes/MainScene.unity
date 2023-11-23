@@ -1049,7 +1049,9 @@ MonoBehaviour:
     camera: {fileID: 519420028}
     enemyPrefab: {fileID: 3923114479853909000, guid: 8d789e1c7d61eb143afd38426f89559f, type: 3}
     enemies: []
-    bullet: {fileID: 7450518633538908821, guid: 1d3dd755666fce34db47174f92d21519, type: 3}
+    bulletPrefab: {fileID: 693406323694156972, guid: 9268c05e481e33e418b81f0aa741284d, type: 3}
+    bullets: []
+    enemyDuration: 3
   gameEvent: {fileID: 1762988137}
 --- !u!4 &1195640090
 Transform:

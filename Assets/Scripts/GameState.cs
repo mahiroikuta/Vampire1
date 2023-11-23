@@ -20,6 +20,7 @@ public class GameState
     public List<EnemyComponent> enemies;
     public GameObject bulletPrefab;
     public List<BulletComponent> bullets;
+    public float enemyDuration;
 
     [System.NonSerialized]
     public GameStatus gameStatus;
