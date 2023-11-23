@@ -14,6 +14,7 @@ public class EnemySystem
 
     PlayerComponent _player;
     EnemyComponent _enemy;
+    EnemyComponent empty;
     public EnemySystem(GameState gameState, GameEvent gameEvent)
     {
         _gameState = gameState;
@@ -34,7 +35,7 @@ public class EnemySystem
         foreach (EnemyComponent enemy in _gameState.enemies)
         {
             _enemy = enemy;
-            Vector3 dirToPlayer = (_player.gameObject.transform.position - _enemy.transform.position).normalized;
+            Vector3 dirToPlayer = (_gameState.player.transform.position - _enemy.transform.position).normalized;
             _enemy.empty.transform.rotation = Quaternion.LookRotation(dirToPlayer);
             if (!ObstacleInPath())
             {
@@ -46,9 +47,11 @@ public class EnemySystem
     bool ObstacleInPath()
     {
         RaycastHit hit;
-        Debug.DrawRay(_enemy.transform.position, Vector3.up * 6, Color.blue, 0.1f);
 
-        if (Physics.Raycast(_enemy.transform.position, _enemy.transform.forward, out hit, 2.0f, obstacleLayer))
+        Vector3 forward = _enemy.empty.transform.TransformDirection(Vector3.forward) * 10;
+        Debug.DrawRay(_enemy.transform.position, forward, Color.blue);
+
+        if (Physics.Raycast(_enemy.transform.position, _enemy.empty.transform.forward, out hit, 2.0f, obstacleLayer))
         {
             Debug.Log("#hit object");
             AvoidObstacle(hit);
@@ -59,20 +62,19 @@ public class EnemySystem
 
     void MoveTowardsPlayer()
     {
-        Debug.Log("#movetowards");
         RaycastHit hit;
 
-        if (Physics.Raycast(_enemy.transform.position, _enemy.transform.forward, out hit, 0.5f, playerLayer))
+        if (Physics.Raycast(_enemy.transform.position, _enemy.empty.transform.forward, out hit, 0.5f, playerLayer))
         {
             Debug.Log("#hit player");
-            if (hit.collider.gameObject == _player.gameObject)
+            if (hit.collider.gameObject == _gameState.player.gameObject)
             {
                 EnemyHitPlayer();
             }
-            else
-            {
-                _enemy.transform.position += _enemy.transform.forward * _eSpeed * Time.deltaTime;
-            }
+        }
+        else
+        {
+            _enemy.transform.position += _enemy.empty.transform.forward * _eSpeed * Time.deltaTime;
         }
     }
 
