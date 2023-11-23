@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 4030275158063825561}
   m_Layer: 6
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -485,11 +485,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83056e8bb3faa0b4db526fea044b9d14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pos: {x: 0, y: 0, z: 0}
-  speed: 3
+  speed: 2
   hp: 0
   attack: 2
-  empty: {fileID: 5572833343596474434}
+  coolDownTimer: 0
+  coolTime: 1
+  emptyObj: {fileID: 5572833343596474434}
   hpBar: {fileID: 2788367728384512193}
 --- !u!1 &5572833343596474434
 GameObject:

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class EnemyPool
@@ -9,16 +8,15 @@ public class EnemyPool
     GameEvent _gameEvent;
     private Dictionary<int, List<GameObject>> pool = new Dictionary<int, List<GameObject>>();
 
-    Vector3 _pPos;
-
-    float hor;
-    float ver;
+    PlayerComponent _player;
 
     public EnemyPool(GameState gameState, GameEvent gameEvent)
     {
         _gameState = gameState;
         _gameEvent = gameEvent;
-        _gameEvent.onRemoveGameObject += OnRemoveEnemy;        
+        _gameEvent.onRemoveEnemy += OnRemoveEnemy;
+
+        _player = _gameState.player.GetComponent<PlayerComponent>();
     }
 
     private void OnRemoveEnemy(GameObject gameObject)
@@ -28,8 +26,7 @@ public class EnemyPool
 
     public GameObject OnSpawnEnemy(GameObject enemy)
     {
-        _pPos = _gameState.player.transform.position;
-        Debug.Log(_pPos);
+        Vector3 pPos = _player.transform.position;
         Vector3 addVec = GenerateRandomPos();
         int hash = enemy.GetHashCode();
         if (pool.ContainsKey(hash))
@@ -44,13 +41,13 @@ public class EnemyPool
                     return targetPool[j];
                 }
             }
-            GameObject targetEnemy = GameObject.Instantiate(targetPool[0], new Vector3(_pPos.x + hor, _pPos.y + ver, 0), Quaternion.identity);
+            GameObject targetEnemy = GameObject.Instantiate(targetPool[0], pPos+addVec, Quaternion.identity);
             targetPool.Add(targetEnemy);
             targetEnemy.SetActive(true);
             return targetEnemy;
         }
 
-        GameObject targetEnemy2 = GameObject.Instantiate(enemy, _pPos+addVec, Quaternion.identity);
+        GameObject targetEnemy2 = GameObject.Instantiate(enemy, _player.transform.position+addVec, Quaternion.identity);
         List<GameObject> poolList = new List<GameObject>();
         poolList.Add(targetEnemy2);
         pool.Add(hash, poolList);
@@ -60,6 +57,8 @@ public class EnemyPool
 
     private Vector3 GenerateRandomPos()
     {
+        float hor = 0;
+        float ver = 0;
         float rnd = Random.Range(1,4);
         switch (rnd)
         {
@@ -88,6 +87,7 @@ public class EnemyPool
                 ver = Random.Range(-11,11);
                 break;
         }
-        return new Vector3(hor, ver, 0); 
+        Vector3 addVec = new Vector3(hor, ver, 0);
+        return addVec; 
     }
 }

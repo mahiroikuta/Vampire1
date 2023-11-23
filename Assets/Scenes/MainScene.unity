@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 763429605}
   m_Layer: 7
   m_Name: ObjectTile
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1046,10 +1046,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameState:
     player: {fileID: 621467123}
-    emptySphere: {fileID: 1613374648}
     camera: {fileID: 519420028}
     enemyPrefab: {fileID: 3923114479853909000, guid: 8d789e1c7d61eb143afd38426f89559f, type: 3}
     enemies: []
+    bullet: {fileID: 7450518633538908821, guid: 1d3dd755666fce34db47174f92d21519, type: 3}
   gameEvent: {fileID: 1762988137}
 --- !u!4 &1195640090
 Transform:
@@ -1065,11 +1065,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1613374648 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5134497891301000867, guid: a8108f6ae077744c4b61f400f57ebdd2, type: 3}
-  m_PrefabInstance: {fileID: 7499044187651120337}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1762988136
 GameObject:
   m_ObjectHideFlags: 0

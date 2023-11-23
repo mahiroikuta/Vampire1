@@ -7,7 +7,7 @@ public class CameraSystem
     GameState _gameState;
     GameEvent _gameEvent;
 
-    public float _pSpeed;
+    PlayerComponent _player;
     public Vector3 _pos;
 
     public CameraSystem(GameState gameState, GameEvent gameEvent)
@@ -15,16 +15,15 @@ public class CameraSystem
         _gameState = gameState;
         _gameEvent = gameEvent;
 
-        _pSpeed = gameState.player.GetComponent<PlayerComponent>().speed;
-        _pos = gameState.camera.GetComponent<CameraComponent>().pos;
+        _player = gameState.player.GetComponent<PlayerComponent>();
 
         Init();
     }
 
-    public void Init()
+    void Init()
     {
         Vector3 basePos = new Vector3(0, 0, -10f);
-        _pos = basePos;
+        _gameState.camera.transform.position = basePos;
     }
 
     public void OnUpdate()
@@ -39,19 +38,19 @@ public class CameraSystem
         float ver=0;
         if (Input.GetKey(KeyCode.W))
         {
-            ver = _pSpeed * Time.deltaTime * 5;
+            ver = _player.speed * Time.deltaTime * 5;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            ver = -_pSpeed * Time.deltaTime * 5;
+            ver = -_player.speed * Time.deltaTime * 5;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            hor = _pSpeed * Time.deltaTime * 5;
+            hor = _player.speed * Time.deltaTime * 5;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            hor = -_pSpeed * Time.deltaTime * 5;
+            hor = -_player.speed * Time.deltaTime * 5;
         }
 
         _pos = new Vector3(_pos.x+hor, _pos.y+ver, _pos.z);

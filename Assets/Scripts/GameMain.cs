@@ -13,6 +13,7 @@ public class GameMain : MonoBehaviour
     CameraSystem cameraSystem;
     EnemySpawnSystem enemySpawnSystem;
     EnemyPool enemyPool;
+    BulletPool bulletPool;
 
     EnemySystem enemySystem;
     // Start is called before the first frame update
