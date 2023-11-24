@@ -6,7 +6,7 @@ public class EnemySystem
     GameEvent _gameEvent;
 
     float _eSpeed;
-    float avoidDistance = 1f;
+    float avoidDistance = 0.1f;
     LayerMask playerLayer = 1 << 3;
     LayerMask obstacleLayer = 1 << 7;
     PlayerComponent _player;
@@ -44,12 +44,12 @@ public class EnemySystem
 
     bool ObstacleInPath()
     {
-        RaycastHit hit;
+        RaycastHit2D hit = Physics2D.Raycast(_enemyComp.transform.position, _enemyComp.emptyObj.transform.forward, 5.0f, obstacleLayer);
 
-        if (Physics.Raycast(_enemyComp.transform.position, _enemyComp.emptyObj.transform.forward, out hit, 2.0f, obstacleLayer))
+        if (hit.collider != null)
         {
             Debug.Log("#hit object");
-            AvoidObstacle(hit);
+            // AvoidObstacle();
             return true;
         }
         return false;
@@ -57,9 +57,9 @@ public class EnemySystem
 
     void MoveTowardsPlayer()
     {
-        RaycastHit hit;
+        RaycastHit2D hit = Physics2D.Raycast(_enemyComp.transform.position, _enemyComp.emptyObj.transform.forward, 0.5f, playerLayer);
 
-        if (Physics.Raycast(_enemyComp.transform.position, _enemyComp.emptyObj.transform.forward, out hit, 0.5f, playerLayer))
+        if (hit.collider != null)
         {
             if (hit.collider.CompareTag("Player"))
             {
@@ -72,18 +72,17 @@ public class EnemySystem
         else _enemyComp.transform.position += _enemyComp.emptyObj.transform.forward * _eSpeed * Time.deltaTime;
     }
 
-    void AvoidObstacle(RaycastHit hit)
+    void AvoidObstacle()
     {
         Vector3 avoidDir = Vector3.right * (Random.value > 0.5f ? -avoidDistance : avoidDistance);
 
         _enemyComp.transform.position += avoidDir;
-        Vector3 dirToPlayer = (_player.gameObject.transform.position - _enemyComp.transform.position).normalized;
-        _enemyComp.emptyObj.transform.rotation = Quaternion.LookRotation(dirToPlayer);
     }
 
     void EnemyHitPlayer()
     {
         _gameEvent.enemyHitPlayer?.Invoke(_enemyComp.gameObject);
+        _gameEvent.damageText?.Invoke(_player.gameObject);
     }
 
     void DamagedByBullet(GameObject bullet, GameObject enemy)
