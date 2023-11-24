@@ -66,9 +66,8 @@ public class BulletSystem
 
     bool ObstacleInPath(BulletComponent bulletComp)
     {
-        RaycastHit hit;
-
-        if (Physics.Raycast(_bulletComp.transform.position, _bulletComp.transform.up, out hit, 0.5f, obstacleLayer))
+        RaycastHit2D hit = Physics2D.Raycast(_bulletComp.transform.position, _bulletComp.transform.up, 0.5f, obstacleLayer);
+        if (hit.collider != null)
         {
             bulletsToRemove.Add(bulletComp);
             return true;
@@ -78,13 +77,13 @@ public class BulletSystem
 
     void MoveForward()
     {
-        RaycastHit hit;
-
-        if (Physics.Raycast(_bulletComp.transform.position, _bulletComp.transform.up, out hit, 0.5f, enemyLayer))
+        RaycastHit2D hit = Physics2D.Raycast(_bulletComp.transform.position, _bulletComp.transform.up, 0.5f, enemyLayer);
+        if (hit.collider != null)
         {
             if (hit.collider.CompareTag("Enemy"))
             {
                 _gameEvent.bulletHitEnemy?.Invoke(_bulletComp.gameObject, hit.collider.gameObject);
+                _gameEvent.damageText?.Invoke(hit.collider.gameObject);
                 bulletsToRemove.Add(_bulletComp);
                 return;
             }

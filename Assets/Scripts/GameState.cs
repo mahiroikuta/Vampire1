@@ -21,6 +21,9 @@ public class GameState
     public GameObject bulletPrefab;
     public List<BulletComponent> bullets;
     public float enemyDuration;
+    public Transform parentDamageText;
+    public GameObject prefabDamageText;
+    public List<DamageTextComponent> damageTexts;
 
     [System.NonSerialized]
     public GameStatus gameStatus;

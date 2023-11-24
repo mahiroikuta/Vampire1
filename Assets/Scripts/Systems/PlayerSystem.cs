@@ -10,7 +10,13 @@ public class PlayerSystem
 
     PlayerComponent _playerComp;
     BulletComponent _bullet;
+    Animator playerAnim;
     Vector3 _pos;
+    Vector3 mousePos;
+    Vector2 direction;
+    bool moving = false;
+    string trigger;
+    string[] triggers = {"isUp", "isDown", "isRight", "isLeft", "moveUp", "moveDown", "moveRight", "moveLeft"};
     public PlayerSystem(GameState gameState, GameEvent gameEvent)
     {
         _gameState = gameState;
@@ -18,6 +24,7 @@ public class PlayerSystem
 
         _playerComp = _gameState.player.GetComponent<PlayerComponent>();
         _bullet = _gameState.bulletPrefab.GetComponent<BulletComponent>();
+        playerAnim = _gameState.player.GetComponent<Animator>();
 
         _gameEvent.enemyHitPlayer += DamagedByEnemy;
 
@@ -35,12 +42,17 @@ public class PlayerSystem
     public void OnUpdate()
     {
         _playerComp.coolTimer += Time.deltaTime;
-        MovePlayer();
+        mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+        mousePos.z = 0;
+        direction = (mousePos - _playerComp.transform.position).normalized;
         TrackCursor();
+        moving = MovePlayer();
+
+        controlAnim(direction);
     }
 
     // WASDで移動する
-    void MovePlayer()
+    bool MovePlayer()
     {
         float hor=0;
         float ver=0;
@@ -81,16 +93,29 @@ public class PlayerSystem
         {
             _pos.y = -40f;
         }
-        _playerComp.transform.position = _pos;
+
+        if (distance != Vector3.zero)
+        {
+            _playerComp.transform.position = _pos;
+            return true;
+        }
+        return false;
     }
 
     // マウスカーソルの方向を向く
+    // void TrackCursor()
+    // {
+    //     Vector3 pos = Camera.main.WorldToScreenPoint (_gameState.player.transform.localPosition);
+	// 	Quaternion rotation = Quaternion.LookRotation(Vector3.forward, Input.mousePosition - pos);
+	// 	_playerComp.emptyObj.transform.rotation = rotation;
+    // }
+
     void TrackCursor()
     {
-        Vector3 pos = Camera.main.WorldToScreenPoint (_gameState.player.transform.localPosition);
-		Quaternion rotation = Quaternion.LookRotation(Vector3.forward, Input.mousePosition - pos);
-		_playerComp.emptyObj.transform.rotation = rotation;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+		_playerComp.emptyObj.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
+
 
     void DamagedByEnemy(GameObject enemy)
     {
@@ -106,5 +131,32 @@ public class PlayerSystem
         }
         _playerComp.hpBar.value = hp;
         _playerComp.hp = hp;
+    }
+
+    void controlAnim(Vector2 direction)
+    {
+        foreach (string trig in triggers)
+        {
+            playerAnim.ResetTrigger(trig);
+        }
+
+        if (direction.y >= direction.x && direction.y >= -direction.x) //up
+        {
+            trigger = moving ? "moveUp" : "isUp";
+        }
+        else if (direction.y <= direction.x && direction.y <= -direction.x) //down
+        {
+            trigger = moving ? "moveDown" : "isDown";
+        }
+        else if (direction.y < direction.x && direction.y > -direction.x) //right
+        {
+            trigger = moving ? "moveRight" : "isRight";
+        }
+        else if (direction.y > direction.x && direction.y < -direction.x) //left
+        {
+            trigger = moving ? "moveLeft" : "isLeft";
+        }
+        else trigger = "isDown";
+        playerAnim.SetTrigger(trigger);
     }
 }
