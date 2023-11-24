@@ -43,16 +43,15 @@ public class EnemyPool
                     targetPool[j].transform.position = pPos+addVec;
                     _enemyComp = targetPool[j].GetComponent<EnemyComponent>();
                     _enemyComp.hp = _enemyComp.maxHp;
-                    _enemyComp.hpBar.maxValue = _enemyComp.hp;
-                    _enemyComp.hpBar.value = _enemyComp.hp;
+                    _enemyComp.hpBar.value = _enemyComp.maxHp;
                     return targetPool[j];
                 }
             }
             GameObject targetEnemy = GameObject.Instantiate(targetPool[0], pPos+addVec, Quaternion.identity);
             _enemyComp = targetEnemy.GetComponent<EnemyComponent>();
             _enemyComp.hp = _enemyComp.maxHp;
-            _enemyComp.hpBar.maxValue = _enemyComp.hp;
-            _enemyComp.hpBar.value = _enemyComp.hp;
+            _enemyComp.hpBar.maxValue = _enemyComp.maxHp;
+            _enemyComp.hpBar.value = _enemyComp.maxHp;
             targetPool.Add(targetEnemy);
             targetEnemy.SetActive(true);
             return targetEnemy;
@@ -61,8 +60,8 @@ public class EnemyPool
         GameObject targetEnemy2 = GameObject.Instantiate(enemyPrefab, pPos+addVec, Quaternion.identity);
         _enemyComp = targetEnemy2.GetComponent<EnemyComponent>();
         _enemyComp.hp = _enemyComp.maxHp;
-        _enemyComp.hpBar.maxValue = _enemyComp.hp;
-        _enemyComp.hpBar.value = _enemyComp.hp;
+        _enemyComp.hpBar.maxValue = _enemyComp.maxHp;
+        _enemyComp.hpBar.value = _enemyComp.maxHp;
         List<GameObject> poolList = new List<GameObject>();
         poolList.Add(targetEnemy2);
         pool.Add(hash, poolList);

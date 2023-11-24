@@ -110,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletCoolTimer: 0
   bulletCoolLevel: 1
-  bulletCoolDown: 2
+  bulletCoolDown: 1
   bulletSplitLevel: 1
   bulletSplitCount: 1
   bulletSpeedLevel: 1

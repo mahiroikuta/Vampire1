@@ -35,7 +35,7 @@ public class BulletSystem
     public void OnUpdate()
     {
         BulletAction();
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             if (_playerComp.coolTimer > _bulletComp.bulletCoolDown)
             {
