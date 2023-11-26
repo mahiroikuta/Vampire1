@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DamageTextComponent : MonoBehaviour
 {
-    public int damage;
+    public float damage;
     public TextMeshProUGUI damageText;
     public float timer;
     public float removeTime;

@@ -119,8 +119,8 @@ public class PlayerSystem
 
     void DamagedByEnemy(GameObject enemy)
     {
-        int hp = _playerComp.hp;
-        int attack = enemy.GetComponent<EnemyComponent>().attack;
+        float hp = _playerComp.hp;
+        float attack = enemy.GetComponent<EnemyComponent>().attack;
         if (hp <= attack)
         {
             hp = 0;

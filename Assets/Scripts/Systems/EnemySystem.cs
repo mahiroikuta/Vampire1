@@ -92,6 +92,7 @@ public class EnemySystem
         int damage = bulletComp.bulletDamage;
         enemyComp.hp -= damage;
         enemyComp.hpBar.value = enemyComp.hp;
+        Debug.Log(enemyComp.hp);
         if (enemyComp.hp <= 0) _gameEvent.onRemoveEnemy?.Invoke(enemyComp);
     }
 }

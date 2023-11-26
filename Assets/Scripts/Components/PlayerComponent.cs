@@ -5,9 +5,9 @@ using UnityEngine.UI;
 public class PlayerComponent : MonoBehaviour
 {
     public float speed;
-    public int maxHp;
-    public int hp;
-    public int attack;
+    public float maxHp;
+    public float hp;
+    public float attack;
     public Slider hpBar;
     public GameObject emptyObj;
     public GameObject aim;
