@@ -7,6 +7,8 @@ public class PlayerComponent : MonoBehaviour
     public float speed;
     public float maxHp;
     public float hp;
+    public float maxXp;
+    public float xp;
     public float attack;
     public Slider hpBar;
     public GameObject emptyObj;

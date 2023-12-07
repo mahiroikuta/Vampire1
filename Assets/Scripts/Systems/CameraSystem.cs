@@ -28,6 +28,7 @@ public class CameraSystem
 
     public void OnUpdate()
     {
+        if (_gameState.gameStatus != GameStatus.IsPlaying) return;
         MoveCamera();
     }
 

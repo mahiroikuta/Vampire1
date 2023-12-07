@@ -22,10 +22,11 @@ public class DamageTextSystem
 
     public void OnUpdate()
     {
-        textsAction();
+        if (_gameState.gameStatus != GameStatus.IsPlaying) return;
+        TextsAction();
     }
 
-    void textsAction()
+    void TextsAction()
     {
         foreach (DamageTextComponent damageTextComp in _gameState.damageTexts)
         {

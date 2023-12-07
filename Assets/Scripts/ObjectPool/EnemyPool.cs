@@ -22,8 +22,9 @@ public class EnemyPool
 
     private void OnRemoveEnemy(EnemyComponent enemyComp)
     {
-        enemyComp.gameObject.SetActive(false);
+        enemyComp.gameObject.SetActive(false);        
         _gameState.enemies.Remove(enemyComp);
+        _player.xp += enemyComp.dropXp;
     }
 
     public GameObject OnSpawnEnemy(GameObject enemyPrefab)

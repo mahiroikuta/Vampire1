@@ -41,6 +41,7 @@ public class PlayerSystem
 
     public void OnUpdate()
     {
+        if (_gameState.gameStatus != GameStatus.IsPlaying) return;
         _playerComp.coolTimer += Time.deltaTime;
         mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
         mousePos.z = 0;

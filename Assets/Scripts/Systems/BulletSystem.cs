@@ -34,6 +34,7 @@ public class BulletSystem
 
     public void OnUpdate()
     {
+        if (_gameState.gameStatus != GameStatus.IsPlaying) return;
         BulletAction();
         if (Input.GetMouseButton(0))
         {

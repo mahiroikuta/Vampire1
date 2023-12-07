@@ -21,6 +21,7 @@ public class EnemySpawnSystem
 
     public void OnUpdate()
     {
+        if (_gameState.gameStatus != GameStatus.IsPlaying) return;
         duration += Time.deltaTime;
         if (duration > _gameState.enemyDuration)
         {

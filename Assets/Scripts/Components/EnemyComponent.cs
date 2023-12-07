@@ -6,6 +6,7 @@ public class EnemyComponent : MonoBehaviour
     public float speed;
     public float maxHp;
     public float hp;
+    public float dropXp;
     public float attack;
     public float coolDownTimer;
     public float coolTime;

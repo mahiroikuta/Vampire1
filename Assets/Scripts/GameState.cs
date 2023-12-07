@@ -6,7 +6,7 @@ public enum GameStatus
 {
     Ready,
     IsPlaying,
-    GetItem,
+    LevelUp,
     GameOver,
     GameClear,
 }

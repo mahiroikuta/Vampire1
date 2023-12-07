@@ -8,12 +8,14 @@ public class GameMain : MonoBehaviour
     GameState gameState;
     [SerializeField]
     GameEvent gameEvent;
+    LevelUpScreen levelUpScreen;
 
     PlayerSystem playerSystem;
     CameraSystem cameraSystem;
     EnemySpawnSystem enemySpawnSystem;
     BulletSystem bulletSystem;
     DamageTextSystem damageTextSystem;
+    EnhanceSystem enhanceSystem;
     EnemyPool enemyPool;
     BulletPool bulletPool;
     DamageTextPool damageTextPool;
@@ -22,6 +24,8 @@ public class GameMain : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameEvent.showLevelUpScreen += levelUpScreen.OnShow;
+        gameEvent.hideLevelUpScreen += levelUpScreen.OnHide;
         playerSystem = new PlayerSystem(gameState, gameEvent);
         cameraSystem = new CameraSystem(gameState, gameEvent);
         enemyPool = new EnemyPool(gameState, gameEvent);
@@ -36,6 +40,7 @@ public class GameMain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        enhanceSystem.OnUpdate();
         playerSystem.OnUpdate();
         cameraSystem.OnUpdate();
         enemySpawnSystem.OnUpdate();
