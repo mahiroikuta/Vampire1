@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class EnemySystem
 {
-    GameState _gameState;
-    GameEvent _gameEvent;
+    private GameState _gameState;
+    private GameEvent _gameEvent;
 
-    float _eSpeed;
-    float avoidDistance = 0.1f;
-    LayerMask playerLayer = 1 << 3;
-    LayerMask obstacleLayer = 1 << 7;
-    PlayerComponent _player;
-    EnemyComponent _enemyComp;
+    private float _eSpeed;
+    private float avoidDistance = 0.1f;
+    private LayerMask playerLayer = 1 << 3;
+    private LayerMask obstacleLayer = 1 << 7;
+    private PlayerComponent _player;
+    private EnemyComponent _enemyComp;
     public EnemySystem(GameState gameState, GameEvent gameEvent)
     {
         _gameState = gameState;
@@ -28,7 +28,7 @@ public class EnemySystem
         EnemyAction();
     }
 
-    void EnemyAction()
+    private void EnemyAction()
     {
         foreach (EnemyComponent enemyComp in _gameState.enemies)
         {
@@ -43,7 +43,7 @@ public class EnemySystem
         }
     }
 
-    bool ObstacleInPath()
+    private bool ObstacleInPath()
     {
         RaycastHit2D hit = Physics2D.Raycast(_enemyComp.transform.position, _enemyComp.emptyObj.transform.forward, 5.0f, obstacleLayer);
 
@@ -56,7 +56,7 @@ public class EnemySystem
         return false;
     }
 
-    void MoveTowardsPlayer()
+    private void MoveTowardsPlayer()
     {
         RaycastHit2D hit = Physics2D.Raycast(_enemyComp.transform.position, _enemyComp.emptyObj.transform.forward, 0.5f, playerLayer);
 
@@ -73,27 +73,30 @@ public class EnemySystem
         else _enemyComp.transform.position += _enemyComp.emptyObj.transform.forward * _eSpeed * Time.deltaTime;
     }
 
-    void AvoidObstacle()
+    private void AvoidObstacle()
     {
         Vector3 avoidDir = Vector3.right * (Random.value > 0.5f ? -avoidDistance : avoidDistance);
 
         _enemyComp.transform.position += avoidDir;
     }
 
-    void EnemyHitPlayer()
+    private void EnemyHitPlayer()
     {
         _gameEvent.enemyHitPlayer?.Invoke(_enemyComp.gameObject);
         _gameEvent.damageText?.Invoke(_player.gameObject);
     }
 
-    void DamagedByBullet(GameObject bullet, GameObject enemy)
+    private void DamagedByBullet(GameObject enemy)
     {
         EnemyComponent enemyComp = enemy.GetComponent<EnemyComponent>();
-        BulletComponent bulletComp = bullet.GetComponent<BulletComponent>();
-        int damage = bulletComp.bulletDamage;
+        float damage = _player.damageUpLevel * _player.attack;
         enemyComp.hp -= damage;
         enemyComp.hpBar.value = enemyComp.hp;
         Debug.Log(enemyComp.hp);
-        if (enemyComp.hp <= 0) _gameEvent.onRemoveEnemy?.Invoke(enemyComp);
+        if (enemyComp.hp <= 0)
+        {
+            _gameEvent.onRemoveEnemy?.Invoke(enemyComp);
+            _player.xp += enemyComp.dropXp;
+        }
     }
 }

@@ -4,30 +4,31 @@ using UnityEngine;
 
 public class EnhanceSystem
 {
-    GameState _gameState;
-    GameEvent _gameEvent;
-    PlayerComponent _playerComponent;
+    private GameState _gameState;
+    private GameEvent _gameEvent;
 
     public EnhanceSystem(GameState gameState, GameEvent gameEvent)
     {
         _gameState = gameState;
         _gameEvent = gameEvent;
+
+        _gameEvent.levelUp += levelUpAction;
+        _gameEvent.selectEnhance += endEnhanceFaze;
     }
 
     public void OnUpdate()
     {
-        if (_gameState.gameStatus != GameStatus.LevelUp) return;
-        levelUpAction();
     }
 
-    void levelUpAction()
+    private void levelUpAction()
     {
         Time.timeScale = 0;
         _gameEvent.showLevelUpScreen?.Invoke();
     }
 
-    void endEnhanceFaze()
+    private void endEnhanceFaze()
     {
         Time.timeScale = 1;
+        _gameEvent.hideLevelUpScreen?.Invoke();
     }
 }

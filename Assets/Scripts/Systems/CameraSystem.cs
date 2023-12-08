@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CameraSystem
 {
-    GameState _gameState;
-    GameEvent _gameEvent;
+    private GameState _gameState;
+    private GameEvent _gameEvent;
 
-    PlayerComponent _player;
+    private PlayerComponent _player;
     public Vector3 _pos;
 
     public CameraSystem(GameState gameState, GameEvent gameEvent)
@@ -20,7 +20,7 @@ public class CameraSystem
         Init();
     }
 
-    void Init()
+    private void Init()
     {
         Vector3 basePos = new Vector3(0, 0, -10f);
         _gameState.camera.transform.position = basePos;
@@ -33,7 +33,7 @@ public class CameraSystem
     }
 
     // WASDで移動する
-    void MoveCamera()
+    private void MoveCamera()
     {
         float hor=0;
         float ver=0;

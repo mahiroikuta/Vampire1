@@ -8,7 +8,8 @@ public class GameMain : MonoBehaviour
     GameState gameState;
     [SerializeField]
     GameEvent gameEvent;
-    LevelUpScreen levelUpScreen;
+    [SerializeField]
+    List<BaseScreen> screens;
 
     PlayerSystem playerSystem;
     CameraSystem cameraSystem;
@@ -24,8 +25,7 @@ public class GameMain : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameEvent.showLevelUpScreen += levelUpScreen.OnShow;
-        gameEvent.hideLevelUpScreen += levelUpScreen.OnHide;
+        enhanceSystem = new EnhanceSystem(gameState, gameEvent);
         playerSystem = new PlayerSystem(gameState, gameEvent);
         cameraSystem = new CameraSystem(gameState, gameEvent);
         enemyPool = new EnemyPool(gameState, gameEvent);
@@ -35,6 +35,11 @@ public class GameMain : MonoBehaviour
         bulletSystem = new BulletSystem(gameState, gameEvent, bulletPool);
         damageTextPool = new DamageTextPool(gameState, gameEvent);
         damageTextSystem = new DamageTextSystem(gameState, gameEvent, damageTextPool);
+
+        foreach(BaseScreen screen in screens)
+        {
+            screen.Init(gameState, gameEvent);
+        }
     }
 
     // Update is called once per frame

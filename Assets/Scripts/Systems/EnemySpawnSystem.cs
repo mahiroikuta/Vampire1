@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class EnemySpawnSystem
 {
-    GameState _gameState;
-    GameEvent _gameEvent;
-    EnemyPool _enemyPool;
+    private GameState _gameState;
+    private GameEvent _gameEvent;
+    private EnemyPool _enemyPool;
 
-    float duration;
+    private float duration;
 
     public EnemySpawnSystem(GameState gameState, GameEvent gameEvent, EnemyPool enemyPool)
     {
@@ -31,7 +31,7 @@ public class EnemySpawnSystem
     }
 
     // 敵を一定距離離れた位置に生成
-    void SpawnEnemy()
+    private void SpawnEnemy()
     {
         // ObjectPool使って画面外に生成
         GameObject enemy = _enemyPool.OnSpawnEnemy(_gameState.enemyPrefab);

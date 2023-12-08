@@ -26,5 +26,5 @@ public class GameState
     public List<DamageTextComponent> damageTexts;
 
     [System.NonSerialized]
-    public GameStatus gameStatus;
+    public GameStatus gameStatus = GameStatus.IsPlaying;
 }

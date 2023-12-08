@@ -5,25 +5,23 @@ using UnityEngine.UI;
 
 public class PlayerSystem
 {
-    GameState _gameState;
-    GameEvent _gameEvent;
+    private GameState _gameState;
+    private GameEvent _gameEvent;
 
-    PlayerComponent _playerComp;
-    BulletComponent _bullet;
-    Animator playerAnim;
-    Vector3 _pos;
-    Vector3 mousePos;
-    Vector2 direction;
-    bool moving = false;
-    string trigger;
-    string[] triggers = {"isUp", "isDown", "isRight", "isLeft", "moveUp", "moveDown", "moveRight", "moveLeft"};
+    private PlayerComponent _playerComp;
+    private Animator playerAnim;
+    private Vector3 _pos;
+    private Vector3 mousePos;
+    private Vector2 direction;
+    private bool moving = false;
+    private string trigger;
+    private string[] triggers = {"isUp", "isDown", "isRight", "isLeft", "moveUp", "moveDown", "moveRight", "moveLeft"};
     public PlayerSystem(GameState gameState, GameEvent gameEvent)
     {
         _gameState = gameState;
         _gameEvent = gameEvent;
 
         _playerComp = _gameState.player.GetComponent<PlayerComponent>();
-        _bullet = _gameState.bulletPrefab.GetComponent<BulletComponent>();
         playerAnim = _gameState.player.GetComponent<Animator>();
 
         _gameEvent.enemyHitPlayer += DamagedByEnemy;
@@ -31,7 +29,7 @@ public class PlayerSystem
         Init();
     }
 
-    void Init()
+    private void Init()
     {
         Vector3 basePos = new Vector3(0, 0, 0);
         _gameState.player.transform.position = basePos;
@@ -50,10 +48,11 @@ public class PlayerSystem
         moving = MovePlayer();
 
         controlAnim(direction);
+        checkXp();
     }
 
     // WASDで移動する
-    bool MovePlayer()
+    private bool MovePlayer()
     {
         float hor=0;
         float ver=0;
@@ -111,14 +110,14 @@ public class PlayerSystem
 	// 	_playerComp.emptyObj.transform.rotation = rotation;
     // }
 
-    void TrackCursor()
+    private void TrackCursor()
     {
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
 		_playerComp.emptyObj.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
 
-    void DamagedByEnemy(GameObject enemy)
+    private void DamagedByEnemy(GameObject enemy)
     {
         float hp = _playerComp.hp;
         float attack = enemy.GetComponent<EnemyComponent>().attack;
@@ -134,7 +133,7 @@ public class PlayerSystem
         _playerComp.hp = hp;
     }
 
-    void controlAnim(Vector2 direction)
+    private void controlAnim(Vector2 direction)
     {
         foreach (string trig in triggers)
         {
@@ -159,5 +158,15 @@ public class PlayerSystem
         }
         else trigger = "isDown";
         playerAnim.SetTrigger(trigger);
+    }
+    
+    private void checkXp()
+    {
+        if (_playerComp.xp >= _playerComp.maxXp)
+        {
+            _playerComp.xp = 0;
+            _playerComp.level++;
+            _gameEvent.levelUp?.Invoke();
+        }
     }
 }

@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class BulletSystem
 {
-    GameState _gameState;
-    GameEvent _gameEvent;
+    private GameState _gameState;
+    private GameEvent _gameEvent;
 
-    PlayerComponent _playerComp;
-    BulletComponent _bulletComp;
-    BulletPool _bulletPool;
-    LayerMask enemyLayer = 1 << 6;
-    LayerMask obstacleLayer = 1 << 7;
+    private PlayerComponent _playerComp;
+    private BulletComponent _bulletComp;
+    private BulletPool _bulletPool;
+    private LayerMask enemyLayer = 1 << 6;
+    private LayerMask obstacleLayer = 1 << 7;
 
-    List<BulletComponent> bulletsToRemove = new List<BulletComponent>();
+    private List<BulletComponent> bulletsToRemove = new List<BulletComponent>();
 
     public BulletSystem(GameState gameState, GameEvent gameEvent, BulletPool bulletPool)
     {
@@ -38,7 +38,7 @@ public class BulletSystem
         BulletAction();
         if (Input.GetMouseButton(0))
         {
-            if (_playerComp.coolTimer > _bulletComp.bulletCoolDown)
+            if (_playerComp.coolTimer > 2 /_playerComp.coolTimeLevel)
             {
                 _playerComp.coolTimer = 0;
                 FireEnemy();
@@ -47,7 +47,7 @@ public class BulletSystem
 
     }
 
-    void BulletAction()
+    private void BulletAction()
     {
         foreach (BulletComponent bulletComp in _gameState.bullets)
         {
@@ -65,7 +65,7 @@ public class BulletSystem
         bulletsToRemove.Clear();
     }
 
-    bool ObstacleInPath(BulletComponent bulletComp)
+    private bool ObstacleInPath(BulletComponent bulletComp)
     {
         RaycastHit2D hit = Physics2D.Raycast(_bulletComp.transform.position, _bulletComp.transform.up, 0.5f, obstacleLayer);
         if (hit.collider != null)
@@ -76,23 +76,23 @@ public class BulletSystem
         return false;
     }
 
-    void MoveForward()
+    private void MoveForward()
     {
         RaycastHit2D hit = Physics2D.Raycast(_bulletComp.transform.position, _bulletComp.transform.up, 0.5f, enemyLayer);
         if (hit.collider != null)
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                _gameEvent.bulletHitEnemy?.Invoke(_bulletComp.gameObject, hit.collider.gameObject);
+                _gameEvent.bulletHitEnemy?.Invoke(hit.collider.gameObject);
                 _gameEvent.damageText?.Invoke(hit.collider.gameObject);
                 bulletsToRemove.Add(_bulletComp);
                 return;
             }
         }
-        else _bulletComp.transform.position += _bulletComp.transform.up * _bulletComp.bulletSpeed * Time.deltaTime;
+        else _bulletComp.transform.position += _bulletComp.transform.up * (_playerComp.bulletSpeedLevel * _playerComp.bulletSpeed) * Time.deltaTime;
     }
 
-    void FireEnemy()
+    private void FireEnemy()
     {
         // for (int i=0; i<_bulletComp.bulletSplitCount)
         // {

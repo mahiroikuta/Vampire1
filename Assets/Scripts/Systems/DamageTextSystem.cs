@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class DamageTextSystem
 {
-    GameState _gameState;
-    GameEvent _gameEvent;
-    DamageTextPool _damageTextPool;
-    DamageTextComponent _damageTextComp;
+    private GameState _gameState;
+    private GameEvent _gameEvent;
+    private DamageTextPool _damageTextPool;
+    private DamageTextComponent _damageTextComp;
 
-    List<DamageTextComponent> textsToRemove = new List<DamageTextComponent>();
+    private List<DamageTextComponent> textsToRemove = new List<DamageTextComponent>();
 
     public DamageTextSystem(GameState gameState, GameEvent gameEvent, DamageTextPool damageTextPool)
     {
@@ -26,7 +26,7 @@ public class DamageTextSystem
         TextsAction();
     }
 
-    void TextsAction()
+    private void TextsAction()
     {
         foreach (DamageTextComponent damageTextComp in _gameState.damageTexts)
         {
@@ -46,7 +46,7 @@ public class DamageTextSystem
         textsToRemove.Clear();
     }
 
-    void GeneText(GameObject attacker)
+    private void GeneText(GameObject attacker)
     {
         GameObject damageText = _damageTextPool.OnShowText(_gameState.prefabDamageText, attacker);
         DamageTextComponent damageTextComp = damageText.GetComponent<DamageTextComponent>();
