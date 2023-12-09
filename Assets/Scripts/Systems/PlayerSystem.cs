@@ -33,8 +33,10 @@ public class PlayerSystem
         _playerComp = _gameState.player.GetComponent<PlayerComponent>();
         playerAnim = _gameState.player.GetComponent<Animator>();
 
-        _playerComp.hpBar.maxValue = _playerComp.hp;
+        _playerComp.hpBar.maxValue = _playerComp.maxHp;
         _playerComp.hpBar.value = _playerComp.hp;
+        _playerComp.xpBar.maxValue = _playerComp.maxXp;
+        _playerComp.xpBar.value = _playerComp.xp;
     }
 
     public void OnUpdate()
@@ -165,7 +167,11 @@ public class PlayerSystem
         if (_playerComp.xp >= _playerComp.maxXp)
         {
             _playerComp.xp = 0;
+            _playerComp.xpBar.value = _playerComp.xp;
+            
             _playerComp.level++;
+            _playerComp.maxXp = _gameState.baseXp * _playerComp.level;
+            _playerComp.xpBar.maxValue = _gameState.baseXp * _playerComp.level;
             _gameEvent.levelUp?.Invoke();
         }
     }

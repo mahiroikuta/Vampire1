@@ -97,11 +97,11 @@ public class EnemySystem
         float damage = _player.damageUpLevel * _player.attack;
         enemyComp.hp -= damage;
         enemyComp.hpBar.value = enemyComp.hp;
-        Debug.Log(enemyComp.hp);
         if (enemyComp.hp <= 0)
         {
             _gameEvent.onRemoveEnemy?.Invoke(enemyComp);
             _player.xp += enemyComp.dropXp;
+            _player.xpBar.value += enemyComp.dropXp;
         }
     }
 }

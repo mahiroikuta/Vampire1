@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public enum GameStatus
@@ -26,6 +27,10 @@ public class GameState
     public Transform parentDamageText;
     public GameObject prefabDamageText;
     public List<DamageTextComponent> damageTexts;
+    public float baseXp;
+    public TextMeshProUGUI timeText;
+    [System.NonSerialized]
+    public float timer;
 
     [System.NonSerialized]
     public GameStatus gameStatus = GameStatus.Ready;

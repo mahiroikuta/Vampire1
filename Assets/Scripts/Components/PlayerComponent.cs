@@ -16,6 +16,7 @@ public class PlayerComponent : MonoBehaviour
     public float attack;
     public float bulletSpeed;
     public Slider hpBar;
+    public Slider xpBar;
     public GameObject emptyObj;
     public GameObject aim;
     public float coolTimer = 2f;
