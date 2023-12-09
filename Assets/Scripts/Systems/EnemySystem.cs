@@ -17,9 +17,14 @@ public class EnemySystem
         _gameEvent = gameEvent;
 
         _eSpeed = _gameState.enemyPrefab.GetComponent<EnemyComponent>().speed;
-        _player = _gameState.player.GetComponent<PlayerComponent>();
 
+        _gameEvent.startGame += Init;
         _gameEvent.bulletHitEnemy += DamagedByBullet;
+    }
+
+    private void Init()
+    {
+        _player = _gameState.player.GetComponent<PlayerComponent>();
     }
 
     public void OnUpdate()

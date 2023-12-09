@@ -115,9 +115,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13433b289235443f3a67a308956dae5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: 1
+  coolTimeLevel: 1
+  damageUpLevel: 1
+  bulletSpeedLevel: 1
   speed: 4
-  maxHp: 10
-  hp: 10
+  maxHp: 100
+  hp: 100
+  maxXp: 50
+  xp: 0
+  attack: 5
+  bulletSpeed: 3
   hpBar: {fileID: 812482681659119067}
   emptyObj: {fileID: 4566201086125434549}
   aim: {fileID: 4339001779736334017}

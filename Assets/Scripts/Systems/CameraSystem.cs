@@ -15,15 +15,14 @@ public class CameraSystem
         _gameState = gameState;
         _gameEvent = gameEvent;
 
-        _player = gameState.player.GetComponent<PlayerComponent>();
-
-        Init();
+        _gameEvent.startGame += Init;
     }
 
     private void Init()
     {
         Vector3 basePos = new Vector3(0, 0, -10f);
         _gameState.camera.transform.position = basePos;
+        _player = _gameState.player.GetComponent<PlayerComponent>();
     }
 
     public void OnUpdate()

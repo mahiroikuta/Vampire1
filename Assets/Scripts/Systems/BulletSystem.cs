@@ -20,17 +20,16 @@ public class BulletSystem
         _gameState = gameState;
         _gameEvent = gameEvent;
 
-        _playerComp = _gameState.player.GetComponent<PlayerComponent>();
         _bulletComp = _gameState.bulletPrefab.GetComponent<BulletComponent>();
         _bulletPool = bulletPool;
 
-        // Init();
+        _gameEvent.startGame += Init;
     }
 
-    // void Init()
-    // {
-
-    // }
+    void Init()
+    {
+        _playerComp = _gameState.player.GetComponent<PlayerComponent>();
+    }
 
     public void OnUpdate()
     {

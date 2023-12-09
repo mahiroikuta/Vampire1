@@ -14,7 +14,9 @@ public enum GameStatus
 [System.Serializable]
 public class GameState
 {
+    [System.NonSerialized]
     public GameObject player;
+    public GameObject playerPrefab;
     public GameObject camera;
     public GameObject enemyPrefab;
     public List<EnemyComponent> enemies;
@@ -26,5 +28,5 @@ public class GameState
     public List<DamageTextComponent> damageTexts;
 
     [System.NonSerialized]
-    public GameStatus gameStatus = GameStatus.IsPlaying;
+    public GameStatus gameStatus = GameStatus.Ready;
 }

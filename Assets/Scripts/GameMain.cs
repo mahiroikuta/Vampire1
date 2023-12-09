@@ -40,17 +40,19 @@ public class GameMain : MonoBehaviour
         {
             screen.Init(gameState, gameEvent);
         }
+
+        gameEvent.setTitleScreen?.Invoke();
     }
 
     // Update is called once per frame
     void Update()
     {
-        enhanceSystem.OnUpdate();
         playerSystem.OnUpdate();
         cameraSystem.OnUpdate();
         enemySpawnSystem.OnUpdate();
         enemySystem.OnUpdate();
         bulletSystem.OnUpdate();
         damageTextSystem.OnUpdate();
+
     }
 }

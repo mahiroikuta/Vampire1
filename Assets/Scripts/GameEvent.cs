@@ -15,4 +15,6 @@ public class GameEvent : MonoBehaviour
     public Action hideLevelUpScreen;
     public Action levelUp;
     public Action selectEnhance;
+    public Action setTitleScreen;
+    public Action startGame;
 }

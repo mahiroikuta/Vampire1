@@ -13,31 +13,37 @@ public class LevelUpScreen : BaseScreen
     PlayerComponent playerComponent;
     public override void Init(GameState gameState, GameEvent gameEvent)
     {
-        coolTimeButton.onClick.AddListener(enhanceCoolTime);
-        damageUpButton.onClick.AddListener(enhanceDamageUp);
-        bulletSpeedButton.onClick.AddListener(enhanceBulletSpeed);
-
-        playerComponent = gameState.player.GetComponent<PlayerComponent>();
         _gameState = gameState;
         _gameEvent = gameEvent;
-        _gameEvent.showLevelUpScreen += this.OnShow;
-        _gameEvent.hideLevelUpScreen += this.OnHide;
-        _gameEvent.hideLevelUpScreen?.Invoke();
+
+        coolTimeButton.onClick.AddListener(EnhanceCoolTime);
+        damageUpButton.onClick.AddListener(EnhanceDamageUp);
+        bulletSpeedButton.onClick.AddListener(EnhanceBulletSpeed);
+
+        _gameEvent.showLevelUpScreen += OnShow;
+        _gameEvent.hideLevelUpScreen += OnHide;
+        _gameEvent.startGame += GameInit;
+        OnHide();
     }
 
-    private void enhanceCoolTime()
+    private void GameInit()
+    {
+        playerComponent = _gameState.player.GetComponent<PlayerComponent>();
+    }
+
+    private void EnhanceCoolTime()
     {
         playerComponent.coolTimeLevel++;
         _gameEvent.selectEnhance?.Invoke();
     }
 
-    private void enhanceDamageUp()
+    private void EnhanceDamageUp()
     {
         playerComponent.damageUpLevel++;
         _gameEvent.selectEnhance?.Invoke();
     }
 
-    private void enhanceBulletSpeed()
+    private void EnhanceBulletSpeed()
     {
         playerComponent.bulletSpeedLevel++;
         _gameEvent.selectEnhance?.Invoke();

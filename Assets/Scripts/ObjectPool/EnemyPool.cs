@@ -15,11 +15,15 @@ public class EnemyPool
     {
         _gameState = gameState;
         _gameEvent = gameEvent;
-        _gameEvent.onRemoveEnemy += OnRemoveEnemy;
 
-        _player = _gameState.player.GetComponent<PlayerComponent>();
+        _gameEvent.onRemoveEnemy += OnRemoveEnemy;
+        _gameEvent.startGame += Init;
     }
 
+    private void Init()
+    {
+        _player = _gameState.player.GetComponent<PlayerComponent>();
+    }
     private void OnRemoveEnemy(EnemyComponent enemyComp)
     {
         enemyComp.gameObject.SetActive(false);        

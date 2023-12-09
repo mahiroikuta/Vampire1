@@ -16,23 +16,23 @@ public class PlayerSystem
     private bool moving = false;
     private string trigger;
     private string[] triggers = {"isUp", "isDown", "isRight", "isLeft", "moveUp", "moveDown", "moveRight", "moveLeft"};
+    private Vector3 basePos = new Vector3(0, 0, 0);
     public PlayerSystem(GameState gameState, GameEvent gameEvent)
     {
         _gameState = gameState;
         _gameEvent = gameEvent;
 
-        _playerComp = _gameState.player.GetComponent<PlayerComponent>();
-        playerAnim = _gameState.player.GetComponent<Animator>();
-
         _gameEvent.enemyHitPlayer += DamagedByEnemy;
+        _gameEvent.startGame += Init;
 
-        Init();
     }
 
     private void Init()
     {
-        Vector3 basePos = new Vector3(0, 0, 0);
-        _gameState.player.transform.position = basePos;
+        _gameState.player = GameObject.Instantiate(_gameState.playerPrefab, basePos, Quaternion.identity);
+        _playerComp = _gameState.player.GetComponent<PlayerComponent>();
+        playerAnim = _gameState.player.GetComponent<Animator>();
+
         _playerComp.hpBar.maxValue = _playerComp.hp;
         _playerComp.hpBar.value = _playerComp.hp;
     }
@@ -47,8 +47,8 @@ public class PlayerSystem
         TrackCursor();
         moving = MovePlayer();
 
-        controlAnim(direction);
-        checkXp();
+        ControlAnim(direction);
+        CheckXp();
     }
 
     // WASDで移動する
@@ -133,7 +133,7 @@ public class PlayerSystem
         _playerComp.hp = hp;
     }
 
-    private void controlAnim(Vector2 direction)
+    private void ControlAnim(Vector2 direction)
     {
         foreach (string trig in triggers)
         {
@@ -160,7 +160,7 @@ public class PlayerSystem
         playerAnim.SetTrigger(trigger);
     }
     
-    private void checkXp()
+    private void CheckXp()
     {
         if (_playerComp.xp >= _playerComp.maxXp)
         {

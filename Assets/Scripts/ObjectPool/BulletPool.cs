@@ -14,8 +14,13 @@ public class BulletPool
     {
         _gameState = gameState;
         _gameEvent = gameEvent;
-        _gameEvent.onRemoveBullet += OnRemoveBullet;
 
+        _gameEvent.onRemoveBullet += OnRemoveBullet;
+        _gameEvent.startGame += Init;
+    }
+
+    private void Init()
+    {
         _player = _gameState.player.GetComponent<PlayerComponent>();
     }
 
