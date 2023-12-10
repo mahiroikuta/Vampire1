@@ -52,7 +52,7 @@ public class EnemyPool
                     return targetPool[j];
                 }
             }
-            GameObject targetEnemy = GameObject.Instantiate(targetPool[0], pPos+addVec, Quaternion.identity);
+            GameObject targetEnemy = GameObject.Instantiate(targetPool[0], pPos+addVec, Quaternion.identity, _gameState.parentEnemies);
             _enemyComp = targetEnemy.GetComponent<EnemyComponent>();
             _enemyComp.hp = _enemyComp.maxHp;
             _enemyComp.hpBar.maxValue = _enemyComp.maxHp;
@@ -62,7 +62,7 @@ public class EnemyPool
             return targetEnemy;
         }
 
-        GameObject targetEnemy2 = GameObject.Instantiate(enemyPrefab, pPos+addVec, Quaternion.identity);
+        GameObject targetEnemy2 = GameObject.Instantiate(enemyPrefab, pPos+addVec, Quaternion.identity, _gameState.parentEnemies);
         _enemyComp = targetEnemy2.GetComponent<EnemyComponent>();
         _enemyComp.hp = _enemyComp.maxHp;
         _enemyComp.hpBar.maxValue = _enemyComp.maxHp;

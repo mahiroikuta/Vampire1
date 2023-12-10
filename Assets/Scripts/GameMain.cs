@@ -11,12 +11,12 @@ public class GameMain : MonoBehaviour
     [SerializeField]
     List<BaseScreen> screens;
 
+    GameSystem gameSystem;
     PlayerSystem playerSystem;
     CameraSystem cameraSystem;
     EnemySpawnSystem enemySpawnSystem;
     BulletSystem bulletSystem;
     DamageTextSystem damageTextSystem;
-    EnhanceSystem enhanceSystem;
     EnemyPool enemyPool;
     BulletPool bulletPool;
     DamageTextPool damageTextPool;
@@ -25,7 +25,7 @@ public class GameMain : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enhanceSystem = new EnhanceSystem(gameState, gameEvent);
+        gameSystem = new GameSystem(gameState, gameEvent);
         playerSystem = new PlayerSystem(gameState, gameEvent);
         cameraSystem = new CameraSystem(gameState, gameEvent);
         enemyPool = new EnemyPool(gameState, gameEvent);
@@ -41,18 +41,18 @@ public class GameMain : MonoBehaviour
             screen.Init(gameState, gameEvent);
         }
 
-        gameEvent.setTitleScreen?.Invoke();
+        gameEvent.showTitle?.Invoke();
     }
 
     // Update is called once per frame
     void Update()
     {
+        gameSystem.OnUpdate();
         playerSystem.OnUpdate();
         cameraSystem.OnUpdate();
         enemySpawnSystem.OnUpdate();
         enemySystem.OnUpdate();
         bulletSystem.OnUpdate();
         damageTextSystem.OnUpdate();
-
     }
 }

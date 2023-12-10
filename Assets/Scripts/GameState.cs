@@ -8,6 +8,7 @@ public enum GameStatus
     Ready,
     IsPlaying,
     LevelUp,
+    Result,
     GameOver,
     GameClear,
 }
@@ -21,8 +22,10 @@ public class GameState
     public GameObject camera;
     public GameObject enemyPrefab;
     public List<EnemyComponent> enemies;
+    public Transform parentEnemies;
     public GameObject bulletPrefab;
     public List<BulletComponent> bullets;
+    public Transform parentBullets;
     public float enemyDuration;
     public Transform parentDamageText;
     public GameObject prefabDamageText;

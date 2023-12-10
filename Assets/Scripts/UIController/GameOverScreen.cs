@@ -3,31 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TitleScreen : BaseScreen
+public class GameOverScreen : BaseScreen
 {
     GameState _gameState;
     GameEvent _gameEvent;
-    [SerializeField] private Button startButton;
+    [SerializeField] private Button resultButton;
     public override void Init(GameState gameState, GameEvent gameEvent)
     {
         _gameState = gameState;
         _gameEvent = gameEvent;
 
-        _gameEvent.showTitle += OnShow;
-        _gameEvent.startGame += OnHide;
+        _gameEvent.gameOver += OnShow;
+        _gameEvent.showResult += OnHide;
 
-        startButton.onClick.AddListener(StartGame);
+        resultButton.onClick.AddListener(ShowResultScreen);
     }
-
-    private void StartGame()
+    
+    private void ShowResultScreen()
     {
-        _gameState.gameStatus = GameStatus.IsPlaying;
-        _gameEvent.startGame?.Invoke();
+        _gameEvent.showResult?.Invoke();
     }
-
     public override void OnShow()
     {
-        _gameState.gameStatus = GameStatus.Ready;
+        _gameState.gameStatus = GameStatus.GameOver;
         this.gameObject.SetActive(true);
+        Time.timeScale = 0;
     }
 }

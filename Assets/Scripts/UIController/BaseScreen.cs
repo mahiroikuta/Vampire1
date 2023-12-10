@@ -8,10 +8,12 @@ public class BaseScreen : MonoBehaviour
     public virtual void OnShow()
     {
         this.gameObject.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public virtual void OnHide()
     {
         this.gameObject.SetActive(false);
+        Time.timeScale = 1;
     }
 }

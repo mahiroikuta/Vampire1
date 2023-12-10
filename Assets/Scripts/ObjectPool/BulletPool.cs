@@ -47,13 +47,13 @@ public class BulletPool
                     return targetPool[j];
                 }
             }
-            GameObject targetBullet = GameObject.Instantiate(targetPool[0], _player.aim.transform.position, _player.emptyObj.transform.rotation);
+            GameObject targetBullet = GameObject.Instantiate(targetPool[0], _player.aim.transform.position, _player.emptyObj.transform.rotation, _gameState.parentBullets);
             targetPool.Add(targetBullet);
             targetBullet.SetActive(true);
             return targetBullet;
         }
 
-        GameObject targetBullet2 = GameObject.Instantiate(bulletPrefab, _player.aim.transform.position, _player.emptyObj.transform.rotation);
+        GameObject targetBullet2 = GameObject.Instantiate(bulletPrefab, _player.aim.transform.position, _player.emptyObj.transform.rotation, _gameState.parentBullets);
         List<GameObject> poolList = new List<GameObject>();
         poolList.Add(targetBullet2);
         pool.Add(hash, poolList);

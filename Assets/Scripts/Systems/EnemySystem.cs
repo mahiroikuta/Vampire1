@@ -100,8 +100,7 @@ public class EnemySystem
         if (enemyComp.hp <= 0)
         {
             _gameEvent.onRemoveEnemy?.Invoke(enemyComp);
-            _player.xp += enemyComp.dropXp;
-            _player.xpBar.value += enemyComp.dropXp;
+            _gameEvent.updateXp?.Invoke(enemyComp.dropXp);
         }
     }
 }

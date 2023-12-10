@@ -24,7 +24,8 @@ public class PlayerSystem
 
         _gameEvent.enemyHitPlayer += DamagedByEnemy;
         _gameEvent.startGame += Init;
-
+        _gameEvent.updateXp += UpdateXp;
+        _gameEvent.resetGame += ResetXp;
     }
 
     private void Init()
@@ -50,7 +51,6 @@ public class PlayerSystem
         moving = MovePlayer();
 
         ControlAnim(direction);
-        CheckXp();
     }
 
     // WASDで移動する
@@ -123,16 +123,12 @@ public class PlayerSystem
     {
         float hp = _playerComp.hp;
         float attack = enemy.GetComponent<EnemyComponent>().attack;
-        if (hp <= attack)
+        SetHp(attack);
+        if (_playerComp.hp <= 0)
         {
-            hp = 0;
+            SetHp(0);
+            _gameEvent.gameOver?.Invoke();
         }
-        else
-        {
-            hp -= attack;
-        }
-        _playerComp.hpBar.value = hp;
-        _playerComp.hp = hp;
     }
 
     private void ControlAnim(Vector2 direction)
@@ -162,17 +158,34 @@ public class PlayerSystem
         playerAnim.SetTrigger(trigger);
     }
     
-    private void CheckXp()
+    private void UpdateXp(float dropXp)
     {
+        SetXp(dropXp);
         if (_playerComp.xp >= _playerComp.maxXp)
         {
-            _playerComp.xp = 0;
-            _playerComp.xpBar.value = _playerComp.xp;
-            
+            ResetXp();
             _playerComp.level++;
             _playerComp.maxXp = _gameState.baseXp * _playerComp.level;
             _playerComp.xpBar.maxValue = _gameState.baseXp * _playerComp.level;
-            _gameEvent.levelUp?.Invoke();
+            _gameEvent.showLevelUp?.Invoke();
         }
+    }
+
+    private void SetXp(float xp)
+    {
+        _playerComp.xp += xp;
+        _playerComp.xpBar.value = _playerComp.xp;
+    }
+
+    private void ResetXp()
+    {
+        _playerComp.xp = 0;
+        _playerComp.xpBar.value = _playerComp.xp;
+    }
+
+    private void SetHp(float attack)
+    {
+        _playerComp.hp -= attack;
+        _playerComp.hpBar.value = _playerComp.hp;
     }
 }

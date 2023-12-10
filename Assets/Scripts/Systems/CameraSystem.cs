@@ -16,7 +16,6 @@ public class CameraSystem
         _gameEvent = gameEvent;
 
         _gameEvent.startGame += Init;
-        _gameState.timeText.gameObject.SetActive(false);
     }
 
     private void Init()
@@ -31,7 +30,6 @@ public class CameraSystem
     {
         if (_gameState.gameStatus != GameStatus.IsPlaying) return;
         MoveCamera();
-        CountTime();
     }
 
     // WASDで移動する
@@ -77,14 +75,5 @@ public class CameraSystem
             _pos.y = -40f;
         }
         _gameState.camera.transform.position = _pos;
-    }
-
-    private void CountTime()
-    {
-        _gameState.timer += Time.deltaTime;
-        int minutes = Mathf.FloorToInt(_gameState.timer / 60);
-        int seconds = Mathf.FloorToInt(_gameState.timer % 60);
-        string timeText = string.Format("{0:00}:{1:00}", minutes, seconds);
-        _gameState.timeText.SetText(timeText);
     }
 }

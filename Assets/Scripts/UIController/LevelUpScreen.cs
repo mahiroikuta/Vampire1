@@ -20,8 +20,8 @@ public class LevelUpScreen : BaseScreen
         damageUpButton.onClick.AddListener(EnhanceDamageUp);
         bulletSpeedButton.onClick.AddListener(EnhanceBulletSpeed);
 
-        _gameEvent.showLevelUpScreen += OnShow;
-        _gameEvent.hideLevelUpScreen += OnHide;
+        _gameEvent.showLevelUp += OnShow;
+        _gameEvent.backGame += OnHide;
         _gameEvent.startGame += GameInit;
         OnHide();
     }
@@ -34,18 +34,18 @@ public class LevelUpScreen : BaseScreen
     private void EnhanceCoolTime()
     {
         playerComponent.coolTimeLevel++;
-        _gameEvent.selectEnhance?.Invoke();
+        _gameEvent.backGame?.Invoke();
     }
 
     private void EnhanceDamageUp()
     {
         playerComponent.damageUpLevel++;
-        _gameEvent.selectEnhance?.Invoke();
+        _gameEvent.backGame?.Invoke();
     }
 
     private void EnhanceBulletSpeed()
     {
         playerComponent.bulletSpeedLevel++;
-        _gameEvent.selectEnhance?.Invoke();
+        _gameEvent.backGame?.Invoke();
     }
 }
